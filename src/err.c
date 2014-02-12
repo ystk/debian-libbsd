@@ -1,5 +1,6 @@
 /*
  * Copyright © 2006 Robert Millan
+ * Copyright © 2011 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,22 +25,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <bsd/err.h>
+#include <err.h>
 #include <errno.h>
 #include <stdarg.h>
 
 void
 warnc(int code, const char *format, ...)
 {
-	int tmp = errno;
 	va_list ap;
 
 	va_start(ap, format);
-
-	errno = code;
-	warn(format, ap);
-	errno = tmp;
-
+	vwarnc(code, format, ap);
 	va_end(ap);
 }
 
@@ -59,10 +55,7 @@ errc(int status, int code, const char *format, ...)
 	va_list ap;
 
 	va_start(ap, format);
-
-	errno = code;
-	err(status, format, ap);
-
+	verrc(status, code, format, ap);
 	va_end(ap);
 }
 

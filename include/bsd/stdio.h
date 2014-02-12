@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004, 2005, 2009 Guillem Jover
+ * Copyright © 2004, 2005, 2009, 2011 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,17 +24,24 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef LIBBSD_OVERLAY
+#include_next <stdio.h>
+#else
+#include <stdio.h>
+#endif
+
 #ifndef LIBBSD_STDIO_H
 #define LIBBSD_STDIO_H
 
 #include <sys/cdefs.h>
 #include <sys/types.h>
-#include <stdio.h>
 
 __BEGIN_DECLS
 const char *fmtcheck(const char *, const char *);
 
 char *fgetln(FILE *fp, size_t *lenp);
+
+int fpurge(FILE *fp);
 __END_DECLS
 
 #endif

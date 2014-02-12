@@ -1,3 +1,54 @@
+libbsd (0.4.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Disable silent rules, so that build logs get meaningful information.
+  * Update debian/copyright file.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 27 Jun 2012 09:41:19 +0200
+
+libbsd (0.4.0-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #668705)
+    - Autoconfiscated, supports cross-building natively. (Closes: #665997)
+    - Provide endian encoding/decoding inline functions. (Closes: #635377)
+    - Provide expand_number(). (Closes: #635379)
+    - Ship <nlist.h> under /usr/include/bsd/. (Closes: #634955, #657772)
+    - Ship <libutil.h> under /usr/include/bsd/. (Closes: #640895)
+    - Fix header protections when using the overlay. (Closes: #630907)
+    - Fix .so symlinks to be relative even when the .so.N shared library
+      is on a different directory. (Closes: #580372)
+    - Remove all deprecated headers and inclusions.
+  * Avoid leaving the system w/o an <nlist.h> previously owned by either
+    libelfg0-dev or libelf-dev when upgrading from old libsd-dev versions
+    which used to Replace them, by restoring <nlist.h> from <bsd/nlist.h>.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 29 May 2012 08:11:13 +0200
+
+libbsd (0.3.0-2) unstable; urgency=low
+
+  * Make shared library packages multiarch:
+    - Build-Depend on debhelper 8.1.3.
+    - Add misc:Pre-Depends substvar to Pre-Depends field in libbsd0.
+    - Add “Multi-Arch: same” field to libbsd0 and libbsd0-dbg.
+    - Define DEB_HOST_MULTIARCH and use it to set libdir and usrlibdir.
+    - Change paths from lib/ to lib/* in install files.
+  * Now using Standards-Version 3.9.3 (no changes needed).
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 25 Feb 2012 20:52:55 +0100
+
+libbsd (0.3.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Update and reword function list in package description.
+  * Install all pkg-config files.
+  * Use kfreebsd-any instead of explicit list in libbsd0 Conflicts field.
+  * Now using Standards-Version 3.9.2 (no changes needed).
+  * Switch the symbols file to use symver tags instead of symbol patterns.
+  * Use dpkg-buildflags to set CPPFLAGS, CFLAGS and LDFLAGS.
+  * Remove duplicate inherited Section field from libbsd0.
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 02 Jun 2011 20:28:12 +0200
+
 libbsd (0.2.0-1) unstable; urgency=low
 
   * New upstream release.
@@ -25,7 +76,7 @@ libbsd (0.1.5-3) unstable; urgency=low
 libbsd (0.1.5-2) unstable; urgency=low
 
   * Restrict the udeb package to kfreebsd-*, as requested by Otavio
-    Salvador. 
+    Salvador.
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 20 Jul 2009 23:21:10 +0200
 
@@ -147,4 +198,3 @@ libbsd (0.0-1) unreleased; urgency=low
   * Initial release.
 
  -- Hector Garcia <hector@debian.org>  Sun, 17 Jul 2005 16:17:35 +0200
-
