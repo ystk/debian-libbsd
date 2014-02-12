@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004, 2005, 2006, 2009 Guillem Jover
+ * Copyright © 2004-2006, 2009-2011 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,17 +24,61 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBBSD_CDEFS_H
-#define LIBBSD_CDEFS_H
-
+#ifdef LIBBSD_OVERLAY
+#include_next <sys/cdefs.h>
+#else
 #include <sys/cdefs.h>
+#endif
+
+#ifndef LIBBSD_SYS_CDEFS_H
+#define LIBBSD_SYS_CDEFS_H
+
+/*
+ * Some kFreeBSD headers expect those macros to be set for sanity checks.
+ */
+#ifndef _SYS_CDEFS_H_
+#define _SYS_CDEFS_H_
+#endif
+#ifndef _SYS_CDEFS_H
+#define _SYS_CDEFS_H
+#endif
+
+#ifdef __GNUC__
+#define LIBBSD_GCC_VERSION (__GNUC__ << 8 | __GNUC_MINOR__)
+#else
+#define LIBBSD_GCC_VERSION 0
+#endif
 
 #ifndef __dead2
-# define __dead2
+# if LIBBSD_GCC_VERSION >= 0x0207
+#  define __dead2 __attribute__((__noreturn__))
+# else
+#  define __dead2
+# endif
 #endif
 
 #ifndef __pure2
-# define __pure2
+# if LIBBSD_GCC_VERSION >= 0x0207
+#  define __pure2 __attribute__((__const__))
+# else
+#  define __pure2
+# endif
+#endif
+
+#ifndef __packed
+# if LIBBSD_GCC_VERSION >= 0x0207
+#  define __packed __attribute__((__packed__))
+# else
+#  define __packed
+# endif
+#endif
+
+#ifndef __aligned
+# if LIBBSD_GCC_VERSION >= 0x0207
+#  define __aligned(x) __attribute__((__aligned__(x)))
+# else
+#  define __aligned(x)
+# endif
 #endif
 
 /* Linux headers define a struct with a member names __unused.
@@ -42,7 +86,7 @@
  * Disable for now. */
 #if 0
 #ifndef __unused
-# ifdef __GNUC__
+# if LIBBSD_GCC_VERSION >= 0x0300
 #  define __unused __attribute__((unused))
 # else
 #  define __unused
@@ -51,10 +95,18 @@
 #endif
 
 #ifndef __printflike
-# ifdef __GNUC__
+# if LIBBSD_GCC_VERSION >= 0x0300
 #  define __printflike(x, y) __attribute((format(printf, (x), (y))))
 # else
 #  define __printflike(x, y)
+# endif
+#endif
+
+#ifndef __nonnull
+# if LIBBSD_GCC_VERSION >= 0x0302
+#  define __nonnull(x) __attribute__((__nonnull__(x)))
+# else
+#  define __nonnull(x)
 # endif
 #endif
 

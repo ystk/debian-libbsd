@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010 Guillem Jover
+ * Copyright © 2010 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,4 +30,3 @@ setproctitle(const char *fmt, ...)
 	/* Stub so that we can implement it later on and programs will
 	 * automatically benefit from it, w/o needing to recompile. */
 }
-

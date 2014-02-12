@@ -1,5 +1,6 @@
 /*
- * Copyright © 2008, 2009 Guillem Jover
+ * Copyright © 2006 Robert Millan
+ * Copyright © 2008-2011 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,6 +25,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef LIBBSD_OVERLAY
+#include_next <unistd.h>
+#else
+#include <unistd.h>
+#endif
+
 #ifndef LIBBSD_UNISTD_H
 #define LIBBSD_UNISTD_H
 
@@ -35,10 +42,23 @@
 #endif
 
 __BEGIN_DECLS
+extern int optreset;
+
+#ifdef LIBBSD_OVERLAY
+#undef getopt
+#define getopt(argc, argv, optstr) bsd_getopt(argc, argv, optstr)
+#endif
+
+int bsd_getopt(int argc, char * const argv[], const char *shortopts);
+
 mode_t getmode(const void *set, mode_t mode);
 void *setmode(const char *mode_str);
 
+void closefrom(int lowfd);
+
 void setproctitle(const char *fmt, ...);
+
+int getpeereid(int s, uid_t *euid, gid_t *egid);
 __END_DECLS
 
 #endif

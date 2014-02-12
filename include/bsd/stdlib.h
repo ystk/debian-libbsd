@@ -1,7 +1,7 @@
 /*
  * Copyright © 2005 Aurelien Jarno
  * Copyright © 2006 Robert Millan
- * Copyright © 2008, 2009 Guillem Jover
+ * Copyright © 2008-2011 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,32 +26,47 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef LIBBSD_OVERLAY
+#include_next <stdlib.h>
+#else
+#include <stdlib.h>
+#endif
+
+/* For compatibility with NetBSD, which defines humanize_number here. */
+#ifdef LIBBSD_OVERLAY
+#include <libutil.h>
+#else
+#include <bsd/libutil.h>
+#endif
+
 #ifndef LIBBSD_STDLIB_H
 #define LIBBSD_STDLIB_H
 
 #include <sys/cdefs.h>
 #include <sys/stat.h>
 #include <stdint.h>
-#include <stdlib.h>
-
-/* For compatibility with NetBSD, which defines humanize_number here. */
-#include <libutil.h>
-
-/* FIXME: Temporary inclusions to avoid API breakage, will be removed soon. */
-#include <bsd/stdio.h>
-#include <bsd/unistd.h>
 
 __BEGIN_DECLS
 u_int32_t arc4random();
 void arc4random_stir();
 void arc4random_addrandom(u_char *dat, int datlen);
+void arc4random_buf(void *_buf, size_t n);
+u_int32_t arc4random_uniform(u_int32_t upper_bound);
 
 int dehumanize_number(const char *str, int64_t *size);
 
-char *getprogname ();
-void setprogname (char *);
+const char *getprogname(void);
+void setprogname(const char *);
 
 int heapsort (void *, size_t, size_t, int (*)(const void *, const void *));
+int mergesort(void *base, size_t nmemb, size_t size,
+              int (*cmp)(const void *, const void *));
+int radixsort(const unsigned char **base, int nmemb,
+              const unsigned char *table, unsigned endbyte);
+int sradixsort(const unsigned char **base, int nmemb,
+               const unsigned char *table, unsigned endbyte);
+
+void *reallocf(void *ptr, size_t size);
 
 long long strtonum(const char *nptr, long long minval, long long maxval,
                    const char **errstr);
