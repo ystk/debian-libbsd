@@ -24,8 +24,12 @@ dist_man_MANS = \
 	dehumanize_number.3 \
 	expand_number.3 \
 	fgetln.3 \
+	fgetwln.3 \
 	flopen.3 \
 	fmtcheck.3 \
+	fparseln.3 \
+	funopen.3 \
+	getbsize.3 \
 	getmode.3 \
 	getpeereid.3 \
 	getprogname.3 \
@@ -43,11 +47,15 @@ dist_man_MANS = \
 	setproctitle.3 \
 	setprogname.3 \
 	sradixsort.3 \
+	stringlist.3 \
 	strlcat.3 \
 	strlcpy.3 \
+	strnstr.3 \
 	strmode.3 \
 	strtonum.3 \
 	tree.3 \
 	unvis.3 \
 	vis.3 \
+	wcslcat.3 \
+	wcslcpy.3 \
 	$(nil)

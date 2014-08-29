@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 EXTRA_DIST = \
 	libbsd.map \
 	libbsd.pc.in \
+	libbsd-ctor.pc.in \
 	libbsd-overlay.pc.in \
 	hash/helper.c \
 	$(nil)
@@ -25,16 +26,23 @@ pkgconfig_DATA = \
 	$(nil)
 
 lib_LTLIBRARIES = libbsd.la
+lib_LIBRARIES =
+
+if BUILD_LIBBSD_CTOR
+pkgconfig_DATA += libbsd-ctor.pc
+
+lib_LIBRARIES += libbsd-ctor.a
+endif
 
 hash/md5hl.c: $(srcdir)/hash/helper.c
-	$(MKDIR_P) hash
+	$(AM_V_at) $(MKDIR_P) hash
 	$(AM_V_GEN) sed -e 's:hashinc:md5.h:g' -e 's:HASH:MD5:g' $< > $@
 
 libbsd_la_DEPENDENCIES = \
 	libbsd.map
 libbsd_la_LDFLAGS = \
 	-Wl,--version-script=$(srcdir)/libbsd.map \
-	-version-number 0:4:2
+	-version-number $(LIBBSD_ABI)
 libbsd_la_SOURCES = \
 	arc4random.c \
 	bsd_getopt.c \
@@ -43,9 +51,13 @@ libbsd_la_SOURCES = \
 	err.c \
 	expand_number.c \
 	fgetln.c \
+	fgetwln.c \
 	flopen.c \
 	fmtcheck.c \
+	fparseln.c \
 	fpurge.c \
+	funopen.c \
+	getbsize.c \
 	getpeereid.c \
 	hash/md5.c \
 	hash/md5hl.c \
@@ -59,15 +71,25 @@ libbsd_la_SOURCES = \
 	progname.c \
 	radixsort.c \
 	readpassphrase.c \
+	reallocarray.c \
 	reallocf.c \
 	setmode.c \
 	setproctitle.c \
 	strlcat.c \
 	strlcpy.c \
+	stringlist.c \
 	strmode.c \
+	strnstr.c \
 	strtonum.c \
+	timeconv.c \
 	unvis.c \
 	vis.c \
+	wcslcat.c \
+	wcslcpy.c \
+	$(nil)
+
+libbsd_ctor_a_SOURCES = \
+	setproctitle_ctor.c \
 	$(nil)
 
 runtimelibdir = $(libdir)

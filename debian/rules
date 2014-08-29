@@ -3,12 +3,19 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
 CFLAGS := -Wall $(shell dpkg-buildflags --get CFLAGS)
 LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+	confflags += --build=$(DEB_HOST_GNU_TYPE)
+else
+	confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
+endif
 
 lib := libbsd0
 libdbg := $(lib)-dbg
@@ -17,11 +24,13 @@ libdev := libbsd-dev
 
 config.status: configure
 	dh_testdir
+	dh_autotools-dev_updateconfig
 
 	./configure \
 		CPPFLAGS="$(CPPFLAGS)" \
 		CFLAGS="$(CFLAGS)" \
 		LDFLAGS="$(LDFLAGS)" \
+		$(confflags) \
 		--disable-silent-rules \
 		--prefix=/usr \
 		--libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)
@@ -47,8 +56,9 @@ clean:
 	dh_testdir
 	dh_testroot
 
-	[ ! -f Makefile ] || $(MAKE) clean
+	[ ! -f Makefile ] || $(MAKE) distclean
 
+	dh_autotools-dev_restoreconfig
 	dh_clean
 
 install-arch: check-arch
