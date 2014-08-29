@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 1 if you have the `clearenv' function. */
+#undef HAVE_CLEARENV
+
 /* Define to 1 if you have the <dirent.h> header file. */
 #undef HAVE_DIRENT_H
 
@@ -14,6 +17,9 @@
 
 /* Define to 1 if you have fcntl(F_CLOSEM) */
 #undef HAVE_FCNTL_CLOSEM
+
+/* Define to 1 if you have the `fopencookie' function. */
+#undef HAVE_FOPENCOOKIE
 
 /* Define to 1 if you have the `getexecname' function. */
 #undef HAVE_GETEXECNAME
@@ -56,6 +62,9 @@
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if typeof works with your compiler. */
+#undef HAVE_TYPEOF
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
@@ -167,6 +176,9 @@
 
 /* Define to `int' if <sys/types.h> does not define. */
 #undef ssize_t
+
+/* Define to __typeof__ if your compiler spells it that way. */
+#undef typeof
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 #undef uid_t
