@@ -22,6 +22,8 @@ libdbg := $(lib)-dbg
 libudeb := $(lib)-udeb
 libdev := libbsd-dev
 
+D := $(CURDIR)/debian
+
 config.status: configure
 	dh_testdir
 	dh_autotools-dev_updateconfig
@@ -67,7 +69,7 @@ install-arch: check-arch
 	dh_prep
 	dh_installdirs
 
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp \
+	$(MAKE) install DESTDIR=$(D)/tmp \
 	                runtimelibdir=/lib/$(DEB_HOST_MULTIARCH)
 
 binary-indep:
@@ -76,10 +78,14 @@ binary-indep:
 binary-arch: install-arch
 	dh_testdir
 	dh_testroot
+	dh_install
 	dh_installchangelogs ChangeLog
 	dh_installdocs
+	dh_installman
+	# XXX: Resolve file conflict with libfuntools-dev, should be upstream.
+	mv $(D)/$(libdev)/usr/share/man/man3/funopen.3 \
+	   $(D)/$(libdev)/usr/share/man/man3/funopen.3bsd
 	dh_installexamples
-	dh_install
 	dh_link
 	dh_strip --dbg-package=$(libdbg)
 	dh_compress

@@ -1,3 +1,15 @@
+libbsd (0.7.0-2) unstable; urgency=high
+
+  * Fix typo in package descriptions. (Closes: #756596)
+    Thanks to Ivan Masár <helix84@centrum.sk>.
+  * Move dh_install before any other dh_install* command in the binary-arch
+    target in debian/rules.
+  * Call dh_installman in debian/rules.
+  * Install funopen.3 man page as funopen.3bsd to avoid a file conflict
+    with libfuntools-dev. (Closes: #756469)
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 29 Aug 2014 14:42:03 +0200
+
 libbsd (0.7.0-1) unstable; urgency=low
 
   * New upstream release.
