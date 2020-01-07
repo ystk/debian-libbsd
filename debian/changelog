@@ -1,3 +1,11 @@
+libbsd (0.7.0-2+deb8u1) jessie-security; urgency=high
+
+  * Non-maintainer upload by the LTS Team. 
+  * CVE-2016-2090
+    Fix for off-by-one which triggers a heap buffer overflow.
+ 
+ -- Thorsten Alteholz <debian@alteholz.de>  Mon, 30 Dec 2019 17:03:02 +0100
+
 libbsd (0.7.0-2) unstable; urgency=high
 
   * Fix typo in package descriptions. (Closes: #756596)
